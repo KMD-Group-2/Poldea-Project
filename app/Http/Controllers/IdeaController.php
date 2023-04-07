@@ -123,6 +123,10 @@ class IdeaController extends Controller
         $now = Carbon::now();
 
         $ideas = Idea::IdeaWithFilter($request->all(), true, Auth::user()->id)->paginate(5);
+        
+        if(isset($request['sortby'])) {
+            $ideas->appends(['sortby' => $request['sortby']]);
+        }
 
         $filterArray = $this->FilterURL(null, null, null, $request['page']);
 
