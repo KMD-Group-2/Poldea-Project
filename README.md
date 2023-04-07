@@ -12,6 +12,7 @@ This repository contains the group student project for the coursework of our cla
 ### Requirements
 - PHP: 8.0
 - MySQL: 5.2.0
+- Composer
 
 ### Installation
 - Make sure you have correct php setup. If you already have php enviroment, Skip `Xampp` Installation. 
@@ -60,6 +61,14 @@ This repository contains the group student project for the coursework of our cla
             ...
         ```
 - Open the console and `cd` your project root directory
+- Run to Install Laravel Packages
+```php
+composer install
+```
+- Run to generate application encrypt key
+```php
+php artisan key:generate
+```
 - Run to setup database tables and columns structures
 ```php 
 php artisan migrate
