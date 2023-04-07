@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Idea extends Model
@@ -132,6 +133,9 @@ class Idea extends Model
                 })
                     ->when(isset($filters['categories']), function ($subq) use ($filters) {
                         $subq->whereIn('category_id', $filters['categories']);
+                    })
+                    ->when(isset($filters['departments']), function ($subq) use ($filters) {
+                        Auth::user()->hasAnyRole(['Admin','QA Manager']) ? $subq->whereIn('publisher_department_id', $filters['departments']) : '';
                     })
                     ->when(isset($filters['date_range']), function ($subq) use ($filters) {
                         $subq->whereBetween('posted_at', [Carbon::parse(explode('~', $filters['date_range'])[0]), Carbon::parse(explode('~', $filters['date_range'])[1])]);
