@@ -127,6 +127,10 @@
                                 </div>
                             @endif
                         </div>
+                        
+                        <div class="mt-2 d-flex justify-content-center justify-content-md-end align-items-center no-block">
+                            {{ $ideas->links('vendor.pagination.bootstrap4-pagination') }}
+                        </div>
                     </div>
                 </div>
             </div>
