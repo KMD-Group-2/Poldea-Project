@@ -47,6 +47,7 @@ class Staff extends Model
         return DB::table('users')
                 ->join('ideas', 'ideas.user_id', '=', 'users.id')
                 ->whereIn('users.id', $this->users()->pluck('id'))
+                ->where('ideas.posted_at','!=', null)
                 ->selectRaw('count(ideas.id) as count')
                 ->pluck('count')
                 ->sum();
