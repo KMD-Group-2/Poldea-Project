@@ -48,7 +48,11 @@ class StaffController extends Controller
 
     public function StaffIdeaList(Staff $staff, Request $request)
     {
-        $ideas = Idea::IdeaWithFilter(null,null,$request['sort_by'],$staff->users()->pluck('id')->toArray())->paginate(5);
+        $ideas = Idea::IdeaWithFilter($request->all(), true, Auth::user()->id)->paginate(5);
+
+        if(isset($request['sortby'])) {
+            $ideas->appends(['sortby' => $request['sortby']]);
+        }
 
         $filterArray = $this->FilterURL();
 
