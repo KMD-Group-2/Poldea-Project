@@ -39,6 +39,8 @@ class ReportManagementController extends Controller
         $last_academic_year = AcademicYear::whereDate('final_closure_date', '>=', Carbon::now())->latest()->first();
         // Report Data
         $ideas = Idea::IdeaReportWithFilter($last_academic_year, $request->all());
+        
+        $ideas->appends($request->all());
 
         // For Selection
         $academic_years = AcademicYear::select('id', 'academic_year', 'final_closure_date')->get();
@@ -61,6 +63,8 @@ class ReportManagementController extends Controller
         // Report Data
         $ideas = Idea::IdeaReportWithFilter($last_academic_year, $request->all());
 
+        $ideas->appends($request->all());
+        
         // For Selection
         $academic_years = AcademicYear::select('id', 'academic_year', 'final_closure_date')->get();
 
@@ -84,6 +88,8 @@ class ReportManagementController extends Controller
 
         // Report Data
         $ideas = Idea::IdeaReportWithFilter($last_academic_year,$request->all(),$qa_c->department_id);
+        
+        $ideas->appends($request->all());
 
         // For Selection
         $academic_years = AcademicYear::select('id', 'academic_year', 'final_closure_date')->get();
