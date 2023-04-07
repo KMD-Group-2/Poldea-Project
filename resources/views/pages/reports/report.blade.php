@@ -33,7 +33,9 @@
                                                             @elseif ($key == 'categories')
                                                                 {{ $categories->filter(function ($item) use ($v) {return $item->id == $v;})->values()->first()->name }}
                                                             @elseif ($key == 'departments')
-                                                                {{ $departments->filter(function ($item) use ($v) {return $item->id == $v;})->values()->first()->name }}
+                                                                @hasanyrole('Admin|QA Manager')
+                                                                    {{ $departments->filter(function ($item) use ($v) {return $item->id == $v;})->values()->first()->name }}
+                                                                @endhasanyrole
                                                             @endif
                                                         </span>
                                                     @endif
