@@ -7,7 +7,7 @@
             <div class="col-12 align-self-center">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">{{ Auth::user()->roles()->first()->name }}</span>
-                    <span class="breadcrumb-item"><a href="{{ route('staff.ideas') }}">Ideas</a></span>
+                    <span class="breadcrumb-item"><a href="{{ url()->previous() }}">Ideas</a></span>
                     <span class="breadcrumb-item active">Detail</span>
                 </nav>
             </div>
