@@ -84,13 +84,7 @@ class IdeaController extends Controller
 
         $ideas = Idea::IdeaWithFilter($request->all())->paginate(5);
 
-        $keys = ['a','c','d','sortby'];
-
-        foreach($request->all() as $key => $val) {
-            if(in_array($key, $keys) && $val != null) {
-                $ideas->appends([$key => $val]);
-            }
-        }
+        $ideas->appends($request->all());
 
         $academicYears = AcademicYear::select('id', 'academic_year', DB::raw("(if(id=(SELECT MAX(id) FROM academic_years WHERE final_closure_date>='$now'),true,false)) As last"))->whereDate('final_closure_date', '>=', Carbon::now())->get();
 
@@ -124,9 +118,7 @@ class IdeaController extends Controller
 
         $ideas = Idea::IdeaWithFilter($request->all(), true, Auth::user()->id)->paginate(5);
         
-        if(isset($request['sortby'])) {
-            $ideas->appends(['sortby' => $request['sortby']]);
-        }
+        $ideas->appends($request->all());
 
         $filterArray = $this->FilterURL(null, null, null, $request['page']);
 
