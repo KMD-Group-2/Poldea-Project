@@ -24,6 +24,7 @@ This repository contains the group student project for the coursework of our cla
 ### Project Setup
 - Create a database using MySQL.
 - Extract Poldea_University_Project.zip to your php project folder. If you using `Xampp`, eg. xampp>htdocs>project_folder.
+- Copy `.env.example` to `.env` in your project root.
 - In `.env` file inside of your project root, You need to set
     - Application URL
     - Database Configuration
