@@ -39,7 +39,7 @@
                                                     @endif
                                                 @endforeach
                                             @else
-                                                @if ($filter)
+                                                @if ($filter && $key != 'page')
                                                     <span
                                                         class="btn waves-effect waves-light btn-rounded btn-sm btn-tag-secondary-blue ml-2 my-1">{{ $filter }}</span>
                                                 @endif
