@@ -32,6 +32,7 @@ class PasswordResetLink extends Mailable
         return $this->subject('Reset Password')
         ->markdown('email.forgetPassword', [
             'url' => route('password.reset', $this->token),
+            'header_image' => asset('assets/images/emails/reset_password.png')
         ]);
     }
 }
