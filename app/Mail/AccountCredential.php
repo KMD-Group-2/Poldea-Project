@@ -34,6 +34,7 @@ class AccountCredential extends Mailable
         ->markdown('email.accountCredential', [
             'url' => route('login'),
             'credentials' => $this->credentials,
+            'header_image' => asset('assets/images/emails/account.png')
         ]);
     }
 }
