@@ -34,6 +34,7 @@ class CommentSubmission extends Mailable
             'url' => route('idea.detail',$this->comment->idea_id),
             'staff' => $this->comment->user->staff,
             'comment' => $this->comment,
+            'header_image' => asset('assets/images/emails/comment.png')
         ]);
     }
 }
