@@ -34,6 +34,7 @@ class IdeaSubmission extends Mailable
             'staff' => $this->idea->user->staff,
             'category' => $this->idea->category->name,
             'url' => route('idea.detail',$this->idea->id),
+            'header_image' => asset('assets/images/emails/new_idea.png')
         ]);
     }
 }
