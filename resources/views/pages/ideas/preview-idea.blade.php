@@ -243,7 +243,7 @@
         <!-- ============================================================== -->
 
         <div class="d-none dropdown-area">
-            <div class="dropdown show">
+            <div class="dropdown show dropup">
                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Publish
