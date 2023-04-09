@@ -43,7 +43,7 @@
                                     action="{{ route('qa_m.category.massDestroy') }}" method="POST"><i
                                         class="ti-trash"></i> Delete
                                     Category</button>
-                                <span class="ids-message"></span>
+                                <div class="ids-message"></div>
                             </div>
                             <div class="col-md-7 align-self-center text-right">
                                 <div
@@ -80,12 +80,20 @@
                                                 <td>{{ $category->name }}</td>
                                                 <td class="text-center">{{ $category->idea_count }}</td>
                                                 <td class="text-center">{{ Carbon\Carbon::parse($category->created_at)->format('d M Y') }}</td>
-                                                <td class="right-side-toggle text-center">
-                                                    <button type="button" class="btn" title="Edit">
+                                                <td class="text-center">
+                                                    @if ($category->idea_count > 0)
+                                                    <button type="button" class="btn" style="cursor:not-allowed;opacity:0.6;" data-toggle="tooltip" data-placement="top" title="This category cannot be edited or deleted because there are already ideas in this category.">
                                                         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3043 0.75 14.863 0.75C15.421 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.571 18.275 4.113C18.2917 4.65433 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z" fill="#B6B6BB"/>
                                                         </svg>
                                                     </button>
+                                                    @else
+                                                    <button type="button" class="btn right-side-toggle" title="Edit">
+                                                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3043 0.75 14.863 0.75C15.421 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.571 18.275 4.113C18.2917 4.65433 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z" fill="#B6B6BB"/>
+                                                        </svg>
+                                                    </button>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -242,7 +250,7 @@
                             $("#StoreCategoryBtn").attr('disabled', false);
                             // display errors on each form field
                             $.each(err.responseJSON.errors, function(i, error) {
-                                var el = $(document).find('[name="' + i + '"]');
+                                var el = $(document).find('#AddNewCategoryModal [name="' + i + '"]');
                                 el.after($('<span class="text-danger error-message">' + error[0] +
                                     '</span>'));
                             });
@@ -275,7 +283,7 @@
                             $("#UpdateFormBtn").attr('disabled', false);
                             // display errors on each form field
                             $.each(err.responseJSON.errors, function(i, error) {
-                                var el = $(document).find('[name="' + i + '"]');
+                                var el = $(document).find('.right-sidebar [name="' + i + '"]');
                                 el.after($('<span class="text-danger error-message">' + error[0] +
                                     '</span>'));
                             });
@@ -304,7 +312,7 @@
                     };
                 } else {
                     $('.selected-table tbody tr.selected').each(function() {
-                        ids.push($(this).data('entry').id);
+                        ids.push($(this).data('id'));
                     })
 
                     formData = {
@@ -323,8 +331,16 @@
                         }
                     },
                     error: function(err) {
+                        $('#DeleteCategoryModal').modal('hide');
                         $(_this).find('button[type=submit]').attr('disabled', false);
-                        console.log(err);
+                        if (err.status == 422) { // when status code is 422, it's a validation issue
+                            // display errors on each form field
+                            $.each(err.responseJSON.errors, function(i, error) {
+                                var el = $(document).find('.ids-message');
+                                el.html($('<span class="text-danger error-message">' + error[0] +
+                                    '</span>'));
+                            });
+                        }
                     }
                 })
             })
@@ -370,7 +386,7 @@
             function showDeleteModal(_this) {
                 var el = $(document).find('.ids-message');
                 el.html('');
-                if ($(_this).data('delete') == 'selected' && !$('.selected-table .select-checkbox:checked').length > 1) {
+                if ($(_this).data('delete') == 'selected' && !($('.selected-table .select-checkbox:checked').length > 1)) {
                     el.html($('<span class="text-danger error-message">Select At Least Two Rows!</span>'));
                     return false;
                 }

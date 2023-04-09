@@ -43,7 +43,7 @@
                                     action="{{ route('admin.staff.massDestroy') }}" method="POST"><i
                                         class="ti-trash"></i> Delete
                                     Staff</button>
-                                <span class="ids-message"></span>
+                                <div class="ids-message"></div>
                             </div>
                             <div class="col-md-7 align-self-center text-right">
                                 <div class="d-flex justify-content-end align-items-center">
@@ -466,7 +466,7 @@
             function showDeleteModal(_this) {
                 var el = $(document).find('.ids-message');
                 el.html('');
-                if ($(_this).data('delete') == 'selected' && !$('.selected-table .select-checkbox:checked').length > 1) {
+                if ($(_this).data('delete') == 'selected' && !($('.selected-table .select-checkbox:checked').length > 1)) {
                     el.html($('<span class="text-danger error-message">Select At Least Two Rows!</span>'));
                     return false;
                 }

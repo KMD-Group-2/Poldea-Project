@@ -41,7 +41,11 @@ class StaffController extends Controller
     {
         $qa_coordinator = Auth::user()->staff;
 
-        $staffs = Staff::where('department_id',$qa_coordinator->department_id)->with(['department','position'])->paginate(10);
+        $staffs = Staff::where('department_id',$qa_coordinator->department_id)->whereHas('users', function($q) {
+            $q->whereHas('roles', function($subq) {
+                $subq->where('name','Staff');
+            });
+        })->with(['department','position'])->paginate(10);
 
         return view('pages.staffs.qa_c_staff_list',compact('staffs'));
     }

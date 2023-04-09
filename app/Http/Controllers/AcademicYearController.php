@@ -8,6 +8,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
 class AcademicYearController extends Controller
@@ -65,6 +66,12 @@ class AcademicYearController extends Controller
      */
     public function update(UpdateAcademicYearRequest $request, AcademicYear $academic_year)
     {
+        if($academic_year->ideas->count() > 0) {
+            throw ValidationException::withMessages([
+                'academic_year' => 'This academic year cannot be edited or deleted because there are already ideas in this academic year.',
+            ]);
+        }
+
         $academic_year->update($request->validated());
 
         return response()->json(['success' => 'Succesfully Updated']);
@@ -78,6 +85,12 @@ class AcademicYearController extends Controller
      */
     public function destroy(AcademicYear $academic_year)
     {
+        if($academic_year->ideas->count() > 0) {
+            throw ValidationException::withMessages([
+                'academic_year' => 'This academic year cannot be edited or deleted because there are already ideas in this academic year.',
+            ]);
+        }
+
         $academic_year->delete();
 
         return response()->json(['success' => 'Succesfully Deleted']);

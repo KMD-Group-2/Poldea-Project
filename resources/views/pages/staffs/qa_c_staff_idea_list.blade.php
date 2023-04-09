@@ -10,7 +10,7 @@
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item active">Ideas</span>
                 </nav>
-            </div>           
+            </div>
         </div>
         <!-- ============================================================== -->
         <!-- End Bread crumb and right sidebar toggle -->
@@ -20,7 +20,7 @@
         <!-- ============================================================== -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">                    
+                <div class="row">
                     <div class="col-12 border-left">
                         <div class="btn-group m-b-10 m-r-10" role="group"
                             aria-label="Button group with nested dropdown">
@@ -69,16 +69,20 @@
                                         </div>
                                         <div class="card-body p-t-0">
                                             <div class="row m-b-10">
-                                                <div class="col-md-8 d-flex">
+                                                <div class="col-md-8 d-flex no-block align-items-center">
                                                     <div class="align-self-center">
                                                         <a href="javascript:void(0)"><img
-                                                                src="{{ $idea->user->staff->photo ?? url('assets/images/default-user.png') }}"
+                                                                src="{{ ($idea->anonymous)?url('assets/images/anonymous.png'):($idea->user->staff->photo ?? url('assets/images/default-user.png')) }}"
                                                                 alt="user" width="40" class="img-circle" /></a>
                                                     </div>
                                                     <div class="p-l-10">
-                                                        <h6 class="m-b-0">{{ $idea->user->staff->name ?? '' }}</h6>
-                                                        <small
-                                                            class="text-muted">Job Title: {{ $idea->user->staff->position->name ?? '' }} / Department: {{ $idea->user->staff->department->name ?? '' }} </small>
+                                                        <h6 class="m-b-0">{{ ($idea->anonymous)?"Anonymous":$idea->user->staff->name }}</h6>
+                                                        @if (!$idea->anonymous)
+                                                        <small class="text-muted">
+                                                            Job Title: {{ $idea->user->staff->position->name ?? '' }} /
+                                                            Department: {{ $idea->user->staff->department->name ?? '' }}
+                                                        </small>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 align-self-center text-right">
@@ -86,7 +90,7 @@
                                                         {{ Carbon\Carbon::parse($idea->posted_at)->format('d M Y') }}</small>
                                                 </div>
                                             </div>
-                                            <div class="mb-2">
+                                            <div class="mb-2 cut-text">
                                                 {!! $idea->description !!}
                                             </div>
                                             <div>
@@ -127,7 +131,7 @@
                                 </div>
                             @endif
                         </div>
-                        
+
                         <div class="mt-2 d-flex justify-content-center justify-content-md-end align-items-center no-block">
                             {{ $ideas->links('vendor.pagination.bootstrap4-pagination') }}
                         </div>

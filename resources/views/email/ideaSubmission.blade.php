@@ -6,7 +6,6 @@ Hi, <br><br>
 We are pleased to inform you that a new idea has been submitted in {{ $category }} category by one of the staff members of your
 department. This email serves as a notification that a new idea has been added to the platform. <br><br>
 <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-<img src="{{ $staff->photo }}" alt="User Image" style="border-radius: 50%;">
 {{ $staff->name }} published a new idea post.
 </div>
 

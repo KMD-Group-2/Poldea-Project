@@ -43,7 +43,7 @@
                                     action="{{ route('admin.user.massDestroy') }}" method="POST"><i
                                         class="ti-trash"></i> Delete
                                     User</button>
-                                <span class="ids-message"></span>
+                                <div class="ids-message"></div>
                             </div>
                             <div class="col-md-7 align-self-center text-right">
                                 <div class="d-flex justify-content-end align-items-center">
@@ -80,7 +80,7 @@
                                                 <td><img src="{{ $user->staff->photo ?? '' }}" alt="user"
                                                         class="" style="width:36px;"> {{ $user->username }}</td>
                                                 <td><span class="btn btn-sm active bg-white btn-secondary cursor-default"
-                                                        style="width:100px;">{{ $user->getRoleNames()[0] }}</span></td>
+                                                        style="width:100px;">{{ $user->roles()->first()->name ?? '' }}</span></td>
                                                 <td>{{ $user->staff->department->name }}</td>
                                                 <td>{{ $user->staff->position->name }}</td>
                                                 <td>
@@ -493,7 +493,7 @@
             function showDeleteModal(_this) {
                 var el = $(document).find('.ids-message');
                 el.html('');
-                if ($(_this).data('delete') == 'selected' && !$('.selected-table .select-checkbox:checked').length > 1) {
+                if ($(_this).data('delete') == 'selected' && !($('.selected-table .select-checkbox:checked').length > 1)) {
                     el.html($('<span class="text-danger error-message">Select At Least Two Rows!</span>'));
                     return false;
                 }

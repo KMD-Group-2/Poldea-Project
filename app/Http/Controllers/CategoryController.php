@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -64,6 +65,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        if($category->ideas->count() > 0) {
+            throw ValidationException::withMessages([
+                'name' => 'This category cannot be edited or deleted because there are already ideas in this category.',
+            ]);
+        }
+
         $category->update($request->validated());
 
         return response()->json(['success' => 'Succesfully Updated']);
@@ -77,6 +84,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if($category->ideas->count() > 0) {
+            throw ValidationException::withMessages([
+                'name' => 'This category cannot be edited or deleted because there are already ideas in this category.',
+            ]);
+        }
+
         $category->delete();
 
         return response()->json(['success' => 'Succesfully Deleted']);
@@ -84,6 +97,16 @@ class CategoryController extends Controller
 
     public function massDestroy(Request $request)
     {
+        $categories = Category::whereIn('id', $request->ids)->get();
+
+        foreach($categories as $category) {
+            if($category->ideas->count() > 0) {
+                throw ValidationException::withMessages([
+                    'name' => $category->name . ' category cannot be edited or deleted because there are already ideas in this category.',
+                ]);
+            }
+        }
+
         Category::whereIn('id', $request->ids)->delete();
 
         return response()->json(['success' => 'Succesfully Deleted']);

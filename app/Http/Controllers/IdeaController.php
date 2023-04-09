@@ -117,9 +117,9 @@ class IdeaController extends Controller
         $now = Carbon::now();
 
         $ideas = Idea::IdeaWithFilter($request->all(), true, Auth::user()->id)->paginate(5);
-        
-        $ideas->appends($request->all());
 
+        $ideas->appends($request->all());
+        
         $filterArray = $this->FilterURL(null, null, null, $request['page']);
 
         return view('pages.ideas.published', compact('ideas', 'filterArray'));

@@ -71,9 +71,11 @@ class Idea extends Model
 
     public function scopeIdeaWithFilter($query, $filters = [], $no_filter = false, $user_id = null)
     {
-        return $query->whereHas('academic_year', function ($q) {
-            $q->where('final_closure_date', '>=', Carbon::now());
-        })
+        return $query->when(!isset($filters['a']) && $no_filter == false, function($q) {
+                $q->whereHas('academic_year', function ($q) {
+                    $q->where('final_closure_date', '>=', Carbon::now());
+                });
+            })
             ->where('posted_at', '!=', null)
             ->when($user_id != null, function($q) use ($user_id) {
                 is_array($user_id) ?

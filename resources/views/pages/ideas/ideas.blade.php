@@ -210,18 +210,20 @@
                                         </div>
                                         <div class="card-body p-t-0">
                                             <div class="row m-b-10">
-                                                <div class="col-md-8 d-flex no-block">
+                                                <div class="col-md-8 d-flex no-block align-items-center">
                                                     <div class="align-self-center">
                                                         <a href="javascript:void(0)"><img
                                                                 src="{{ ($idea->anonymous)?url('assets/images/anonymous.png'):($idea->user->staff->photo ?? url('assets/images/default-user.png')) }}"
                                                                 alt="user" width="40" class="img-circle" /></a>
                                                     </div>
                                                     <div class="p-l-10">
-                                                        <h6 class="m-b-0">{{ ($idea->anonymous)?"anonymous":$idea->user->staff->name }}</h6>
+                                                        <h6 class="m-b-0">{{ ($idea->anonymous)?"Anonymous":$idea->user->staff->name }}</h6>
+                                                        @if (!$idea->anonymous)
                                                         <small class="text-muted">
                                                             Job Title: {{ $idea->user->staff->position->name ?? '' }} /
                                                             Department: {{ $idea->user->staff->department->name ?? '' }}
                                                         </small>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 align-self-center text-left text-md-right mt-2 mt-md-0">
