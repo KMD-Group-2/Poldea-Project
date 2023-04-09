@@ -81,10 +81,6 @@ php artisan migrate:fresh
 ```php 
 php artisan db:seed
 ```
-- After Email Configuration, To use Email Sending Process, need to run this command in terminal of your project root
-```php
-php artisan queue:work
-```
 - Run to Launch Poldea Project
 ```php 
 php artisan serve
